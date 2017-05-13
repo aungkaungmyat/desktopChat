@@ -3,10 +3,10 @@ const path = require('path');
 const url = require('url');
 var express = require('express');
 var server = express();
-let win = require('./win')
+//let win = require('./win')
 const {ipcMain} = require('electron');
 
-//let win;
+let win;
 
 function createWindow(){
   win = new BrowserWindow({width:800, height:600, icon:__dirname+'img/gear.png'});
@@ -27,6 +27,7 @@ function createWindow(){
 };
 
 function changeWindow(){
+  win = null;
   win = new BrowserWindow({width:800, height:600, icon:__dirname+'img/gear.png'});
 
   win.loadURL(url.format({
@@ -37,6 +38,7 @@ function changeWindow(){
 
   win.webContents.openDevTools();
 
+
   //console.log(win.webContents);
 
   win.on('closed', ()=>{
@@ -46,11 +48,11 @@ function changeWindow(){
 
 app.on('ready', createWindow);
 
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg)  // prints "ping"
-  changeWindow()
-  //event.sender.send('asynchronous-reply', 'done')
-})
+// ipcMain.on('asynchronous-message', (event, arg) => {
+//   console.log(arg)  // prints "ping"
+//   //changeWindow()
+//   event.sender.send('asynchronous-reply', 'done')
+// })
 
 app.on('window-all-closed',()=>{
   if(process.platform !== 'darwin'){
